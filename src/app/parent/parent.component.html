@@ -1,0 +1,18 @@
+<h2 >Hello! I'm Parent</h2>
+<!-- <button class="btn btn-success" (click)=" SendToChild()">Send To Child</button> -->
+
+<p><b *ngFor="let singlemsg of receivedParentMessage "> Child Replied:"{{singlemsg.message}}"<br /></b></p>
+<!-- <form [formGroup]="parentMsgsFormGroup" > -->
+<app-child [receivedParentMessage]="messageToSendParent"(messageToEmit)="getMessage($event)"></app-child>
+
+
+ 
+<!-- <div class="form-group">
+                   <button  (click)="SendToChild()" class="button1" >Send To Child</button>
+                   </div>
+                      <div formArrayName="parentsmsgs" *ngFor="let i of parentMsgsFormGroup.controls.parentsmsgs.value;let i=index">
+                          <div [formGroupName]="i">                     
+                        <input class="form-control" formControlName="message" placeholder="add msg">                    
+                          </div>                   
+                      </div> -->
+ <!-- </form> -->
