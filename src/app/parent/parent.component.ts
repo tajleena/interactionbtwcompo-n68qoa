@@ -1,30 +1,36 @@
-import { Component, OnInit,Input,Output } from '@angular/core';
-import{FormBuilder, FormGroup, Validators,FormArray} from '@angular/forms';
+import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
+import { FormBuilder, FormGroup, Validators, FormArray } from "@angular/forms";
 @Component({
-  selector: 'app-parent',
-  templateUrl: './parent.component.html',
-  styleUrls: ['./parent.component.css']
+  selector: "app-parent",
+  templateUrl: "./parent.component.html",
+  styleUrls: ["./parent.component.css"]
 })
 export class ParentComponent implements OnInit {
- 
-   receivedParentMessage:string;
-   messageToSendParent:string='';
+  childMsgsFormGroup: FormGroup;
+  receivedParentMessage: any;
+  messageToSendParent: string = "";
+  @Output() messageToEmit = new EventEmitter<any>();
 
- constructor(private formBuilder:FormBuilder)
-  {
-
-  }
+  constructor(private formBuilder: FormBuilder) {}
   ngOnInit() {
-   
+    this.childMsgsFormGroup = this.formBuilder.group({
+      childmsgs: this.formBuilder.array([])
+    });
   }
-  SendToChild(){
-    this.messageToSendParent="Hello Child. How Are You?";
+  SendToChild() {
+    const msg = this.childMsgsFormGroup.controls.childmsgs as FormArray;
+    msg.push(
+      this.formBuilder.group({
+        message: ""
+      })
+    );
   }
-  getMessage(message:string){
-
-    
-    
-    this.receivedParentMessage=message;
+  submit() {
+    const msg = this.childMsgsFormGroup.controls.childmsgs as FormArray;
+    this.messageToSendParent=msg.value;
+    console.log(msg.value);
   }
-
+  getMessage(message: any) {
+    this.receivedParentMessage = message;
+  }
 }
